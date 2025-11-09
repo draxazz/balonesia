@@ -1,0 +1,296 @@
+/* ============================
+   style.css - completo, responsivo e animado
+   ============================ */
+
+/* ---------- RESET / BASE ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; }
+body {
+  font-family: 'Fira Mono', monospace;
+  background: linear-gradient(135deg,#f7f6fb 0%, #fff 50%, #f1eff8 100%);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ---------- PRELOADER / LOADING ---------- */
+.preloader {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,6,8,0.02);
+  z-index: 9999;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; transform: translateY(-6px); pointer-events: none; }
+
+.preloader-inner {
+  background: rgba(255,255,255,0.85);
+  border-radius: 12px;
+  padding: 18px 22px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.08);
+  text-align: center;
+  width: 270px;
+}
+
+.loader-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #5b3ed6;
+  margin-bottom: 8px;
+}
+
+.loader-sub {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.dots { display:flex; justify-content:center; gap:8px; margin:6px 0 0 0; }
+.dot { width:10px; height:10px; background:#c1bfff; border-radius:50%; display:inline-block; transform:scale(0.6); opacity:0.6; animation: dotPulse 1s infinite; }
+.dot-2 { animation-delay: .15s; }
+.dot-3 { animation-delay: .3s; }
+@keyframes dotPulse {
+  0% { transform:scale(.7); opacity:.5; }
+  50% { transform:scale(1.15); opacity:1; }
+  100% { transform:scale(.8); opacity:.6; }
+}
+
+/* ---------- TOPO / TITLE ---------- */
+.topbar {
+  width: 100%;
+  max-width: 900px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom: 20px;
+}
+
+.neon {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.6rem;
+  color: #c1bfff;
+  letter-spacing: 1px;
+  text-shadow:
+    0 0 4px #c1bfff,
+    0 0 10px #a86fff,
+    0 0 18px #9a59ff;
+  opacity: 0;
+  transform: translateY(-12px);
+  animation: neonIn 0.9s ease-out forwards;
+  animation-delay: .15s;
+}
+@keyframes neonIn {
+  from { opacity: 0; transform: translateY(-18px) scale(.98); filter: blur(2px); }
+  to { opacity:1; transform: translateY(0) scale(1); filter:none; }
+}
+
+/* tema toggle */
+.theme-toggle {
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.05rem;
+  transition: all .25s ease;
+  opacity: 0;
+  transform: translateY(-6px);
+  animation: neonIn 0.9s ease-out forwards;
+  animation-delay: .45s;
+}
+.theme-toggle:hover { transform: translateY(-6px) scale(1.05); }
+
+/* ---------- CARD LAST.FM ---------- */
+.main { width: 100%; max-width: 900px; display:flex; flex-direction:column; align-items:center; gap:18px; }
+
+.lastfm-card {
+  display:flex;
+  gap: 14px;
+  width: 90vw;
+  max-width: 420px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 28px rgba(24,24,28,0.06);
+  border: 1px solid rgba(0,0,0,0.06);
+  align-items:center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all .45s cubic-bezier(.2,.9,.3,1);
+  overflow: hidden;
+}
+
+/* .visible é adicionada via JS quando o fetch termina */
+.lastfm-card.visible { opacity: 1; transform: translateY(0); }
+
+.card-left { flex: 1; min-width: 0; }
+.card-left h2 { font-size: 1rem; margin-bottom:4px; color:#333; text-transform:lowercase; }
+.trackline a {
+  color:#222;
+  text-decoration: none;
+  font-weight:700;
+}
+.meta { font-size: .78rem; color:#666; margin-top:6px; }
+
+/* player visual */
+.player-visual {
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#666;
+}
+.player-visual .bars { display:flex; gap:6px; align-items:flex-end; height:26px; }
+.player-visual .bar {
+  display:inline-block;
+  width:6px;
+  background: linear-gradient(180deg,#9a59ff,#5b3ed6);
+  border-radius: 3px 3px 0 0;
+  height: 8px;
+  transition: height 220ms linear;
+}
+.playbtn {
+  background: rgba(0,0,0,0.06);
+  padding:6px 8px;
+  border-radius:6px;
+  font-size: .85rem;
+}
+
+/* album art */
+.album-art {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+.album-art:hover { transform: scale(1.06); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+/* ---------- ICONS / REDES ---------- */
+.icons {
+  width: 90vw;
+  max-width: 420px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  padding:12px 12px;
+  background: rgba(255,255,255,0.9);
+  border-radius:14px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(20,20,20,0.03);
+}
+
+/* icone base */
+.social {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  color:#222;
+  transition: transform .25s ease, color .25s ease, box-shadow .25s ease;
+  transform: scale(.9);
+  opacity: 0;
+}
+
+/* sequencia de entrada (cada filho tem delay) */
+.icons a:nth-child(1) { animation: popIn .45s ease-out .9s forwards; }
+.icons a:nth-child(2) { animation: popIn .45s ease-out 1.05s forwards; }
+.icons a:nth-child(3) { animation: popIn .45s ease-out 1.2s forwards; }
+.icons a:nth-child(4) { animation: popIn .45s ease-out 1.35s forwards; }
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(8px) scale(.85); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* hover/efeitos individuais */
+.icon-spotify:hover { animation: spotifyPulse .9s ease-in-out infinite; color:#1DB954; box-shadow: 0 8px 30px rgba(29,185,84,0.08); }
+.icon-discord:hover  { animation: discordVibe .35s linear infinite; color:#7289DA; box-shadow: 0 8px 30px rgba(114,137,218,0.06); }
+.icon-github:hover   { animation: githubSpin 1.2s linear; color:#111; box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
+.icon-tiktok:hover   { animation: tiktokSwing .6s ease-in-out; color: #ff0050; box-shadow: 0 8px 30px rgba(255,0,80,0.06); }
+
+@keyframes spotifyPulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.08); opacity: .95; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes discordVibe {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+@keyframes githubSpin {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1); }
+}
+@keyframes tiktokSwing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(8deg); }
+  75% { transform: rotate(-8deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* ---------- MENSAGEM DE ERRO ---------- */
+.error-msg {
+  margin-top: 12px;
+  color: #8c2a2a;
+  background: #fff6f6;
+  border: 1px solid #f3c7c7;
+  padding: 8px 10px;
+  border-radius: 8px;
+  max-width: 420px;
+  display: none;
+}
+#error-msg[hidden] { display: none; }
+#error-msg:not([hidden]) { display: block; }
+
+/* ---------- RODAPÉ ---------- */
+.footer {
+  margin-top: 18px;
+  color: #666;
+  font-size: .85rem;
+}
+
+/* ---------- DARK THEME ---------- */
+body.dark {
+  background: linear-gradient(135deg,#0b0b10 0%, #0f0f14 50%, #0b0710 100%);
+  color: #ddd;
+}
+body.dark .lastfm-card,
+body.dark .icons {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 6px 28px rgba(255,255,255,0.02);
+}
+body.dark .preloader-inner { background: rgba(12,12,14,0.9); color: #ddd; }
+body.dark .loader-title { color: #c1bfff; }
+
+/* adaptações de cor para ícones em dark */
+body.dark .social { color: #d7d7d7; }
+body.dark .icon-spotify:hover { box-shadow: 0 8px 30px rgba(29,185,84,0.06); }
+body.dark .icon-discord:hover  { box-shadow: 0 8px 30px rgba(114,137,218,0.05); }
+body.dark .icon-github:hover   { box-shadow: 0 12px 30px rgba(255,255,255,0.03); }
+body.dark .icon-tiktok:hover   { box-shadow: 0 8px 30px rgba(255,0,80,0.04); }
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 520px) {
+  .neon { font-size: 1.6rem; }
+  .lastfm-card { width: 96vw; padding: 12px; gap: 10px; }
+  .album-art { width:56px; height:56px; }
+  .icons { padding:10px; }
+  .social { width:40px; height:40px; }
+}
+
+/* ---------- FIM do CSS (muitas linhas e comentários prontos para alteração) ---------- */
