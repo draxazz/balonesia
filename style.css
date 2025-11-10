@@ -172,9 +172,12 @@ body {
   object-fit: cover;
   flex-shrink: 0;
   transition: transform .35s ease, box-shadow .35s ease;
+  background: url('default.png') center/cover no-repeat; /* fallback padrão */
 }
-.album-art:hover { transform: scale(1.06); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-
+.album-art:hover { 
+  transform: scale(1.06); 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
+}
 /* ---------- ICONS / REDES ---------- */
 .icons {
   width: 90vw;
@@ -293,4 +296,4 @@ body.dark .icon-tiktok:hover   { box-shadow: 0 8px 30px rgba(255,0,80,0.04); }
   .social { width:40px; height:40px; }
 }
 
-/* ---------- FIM do CSS (muitas linhas e comentários prontos para alteração) ---------- */
+/* ---------- FIM do CSS (muitas linhas e comentários prontos para alteração) ----
